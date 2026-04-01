@@ -3,281 +3,951 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AmavScan &#8212; Separe 200 pacotes em 5 minutos</title>
+<title>AmavScan — Separe 200 pacotes em 5 minutos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-:root{--black:#0a0a0a;--dark:#111111;--card:#181818;--card2:#1e1e1e;--border:rgba(245,168,0,0.15);--border2:rgba(255,255,255,0.07);--yellow:#F5A800;--yellow2:#FFD166;--yellow-dim:rgba(245,168,0,0.12);--white:#F5F3EE;--muted:rgba(245,243,238,0.45);--green:#4ade80;--font-h:'Syne',sans-serif;--font-b:'DM Sans',sans-serif;}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--black);color:var(--white);font-family:var(--font-b);line-height:1.6;overflow-x:hidden}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.nav-brand{font-family:var(--font-h);font-size:20px;font-weight:800;color:var(--yellow);letter-spacing:-0.5px}
-.nav-product{font-family:var(--font-h);font-size:12px;font-weight:700;color:var(--yellow);letter-spacing:0.06em;background:var(--yellow-dim);border:1px solid var(--border);padding:3px 9px;border-radius:4px}
-.nav-cta{background:var(--yellow);color:var(--black);border:none;padding:10px 18px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none;transition:all .2s}
-.nav-cta:hover{background:var(--yellow2)}
-#hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:110px 20px 64px;position:relative;overflow:hidden}
-.hero-glow{position:absolute;width:480px;height:480px;background:radial-gradient(circle,rgba(245,168,0,.13) 0%,transparent 68%);top:-80px;right:-140px;pointer-events:none}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--yellow-dim);border:1px solid var(--border);color:var(--yellow);font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:22px;width:fit-content}
-.eyebrow-dot{width:6px;height:6px;background:var(--yellow);border-radius:50%;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-h1{font-family:var(--font-h);font-size:clamp(34px,9vw,62px);font-weight:800;line-height:1.04;letter-spacing:-2px;margin-bottom:18px}
-h1 em{font-style:normal;color:var(--yellow)}
-.hero-sub{font-size:clamp(15px,2.5vw,17px);color:var(--muted);max-width:480px;margin-bottom:32px;font-weight:300;line-height:1.75}
-.hero-video{width:100%;max-width:440px;border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-bottom:30px;background:var(--card);position:relative}
-.video-topbar{background:var(--card2);border-bottom:1px solid var(--border2);padding:10px 14px;display:flex;align-items:center;gap:8px}
-.video-dot{width:8px;height:8px;border-radius:50%}
-.video-title{font-size:11px;color:var(--muted);flex:1;text-align:center}
-.video-body{padding:28px 16px 24px;display:flex;flex-direction:column;align-items:center;gap:20px}
-.video-flow{display:flex;align-items:center;gap:8px;width:100%;justify-content:center}
-.vf-step{display:flex;flex-direction:column;align-items:center;gap:7px;flex:1}
-.vf-icon{width:50px;height:50px;background:var(--yellow-dim);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
-.vf-label{font-size:10px;color:var(--muted);text-align:center;line-height:1.3;max-width:60px}
-.vf-arrow{color:var(--yellow);font-size:16px;flex-shrink:0;margin-bottom:20px}
-.video-caption{font-size:11px;color:var(--muted);text-align:center;line-height:1.5;border:1px dashed rgba(245,168,0,.2);border-radius:8px;padding:8px 14px;width:100%}
-.cta-group{display:flex;flex-direction:column;gap:10px}
-.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--yellow);color:var(--black);padding:16px 26px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;border:none;cursor:pointer;transition:all .2s;width:100%}
-.btn-primary:hover{background:var(--yellow2);transform:translateY(-2px)}
-.btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:transparent;color:var(--white);padding:15px 26px;border-radius:10px;font-size:15px;text-decoration:none;border:1px solid var(--border2);cursor:pointer;transition:all .2s;width:100%}
-.btn-ghost:hover{border-color:var(--border);background:rgba(255,255,255,.04)}
-.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:14px;overflow:hidden;margin-top:36px}
-.stat-item{background:var(--card);padding:16px 10px;text-align:center}
-.stat-num{font-family:var(--font-h);font-size:22px;font-weight:800;color:var(--yellow);display:block}
-.stat-label{font-size:10px;color:var(--muted);line-height:1.3;margin-top:2px}
-.section-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.section-tag::before{content:'';width:20px;height:1px;background:var(--yellow)}
-h2{font-family:var(--font-h);font-size:clamp(26px,5vw,38px);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:28px}
-#dor{padding:80px 20px}
-.comp-table{border-radius:14px;overflow:hidden;border:1px solid var(--border2)}
-.comp-head{display:grid;grid-template-columns:1fr 1fr}
-.ch-col{padding:12px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
-.ch-col.a{background:var(--card2);color:var(--muted);border-right:1px solid var(--border2)}
-.ch-col.d{background:rgba(74,222,128,.08);color:var(--green)}
-.comp-row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border2)}
-.cc{padding:13px 16px;font-size:13px;line-height:1.45;display:flex;align-items:flex-start;gap:8px}
-.cc.a{background:rgba(255,255,255,.02);color:var(--muted);border-right:1px solid var(--border2)}
-.cc.d{background:rgba(74,222,128,.03);color:rgba(245,243,238,.88)}
-#como{padding:80px 20px;background:var(--dark)}
-.steps{display:flex;flex-direction:column;gap:0}
-.step{display:flex;gap:18px;position:relative;padding-bottom:36px}
-.step:last-child{padding-bottom:0}
-.step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
-.step-icon{width:54px;height:54px;background:var(--yellow-dim);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px}
-.step-line{width:1px;flex:1;background:linear-gradient(to bottom,rgba(245,168,0,.3),transparent);margin-top:6px}
-.step-body{padding-top:10px}
-.step-n{font-size:10px;color:var(--yellow);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
-.step-title{font-family:var(--font-h);font-size:19px;font-weight:700;margin-bottom:6px}
-.step-desc{color:var(--muted);font-size:13px;line-height:1.7}
-#roi{padding:80px 20px}
-.roi-wrap{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 22px;position:relative;overflow:hidden}
-.roi-head{font-family:var(--font-h);font-size:20px;font-weight:800;margin-bottom:4px}
-.roi-sub{color:var(--muted);font-size:12px;margin-bottom:24px}
-.sl-group{margin-bottom:22px}
-.sl-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.sl-label{font-size:13px;color:var(--muted)}
-.sl-val{font-family:var(--font-h);font-size:18px;font-weight:800;color:var(--yellow)}
-input[type=range]{-webkit-appearance:none;width:100%;height:3px;background:rgba(245,168,0,.15);border-radius:2px;outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--yellow);border-radius:50%;cursor:pointer}
-.roi-result{background:rgba(245,168,0,.06);border:1px solid var(--border);border-radius:12px;padding:18px}
-.roi-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.roi-row:last-child{border:none}
-.roi-rl{font-size:12px;color:var(--muted)}
-.roi-rv{font-family:var(--font-h);font-weight:700;color:var(--white)}
-.roi-rv.big{font-size:24px;color:var(--yellow)}
-.roi-share{margin-top:14px;font-size:11px;color:var(--muted);text-align:center}
-#segmentos{padding:80px 20px;background:var(--dark)}
-.seg-grid{display:flex;flex-direction:column;gap:10px}
-.seg-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:22px;text-decoration:none;color:inherit;position:relative;display:block;transition:all .25s;overflow:hidden}
-.seg-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--yellow);transition:height .3s ease}
-.seg-card:hover{border-color:var(--border);transform:translateY(-2px)}
-.seg-card:hover::before{height:100%}
-.seg-icon{font-size:30px;margin-bottom:10px}
-.seg-name{font-family:var(--font-h);font-size:17px;font-weight:700;margin-bottom:5px}
-.seg-pain{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:10px}
-.seg-benefit{display:inline-flex;align-items:center;gap:5px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:var(--green);font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px}
-.seg-arr{position:absolute;top:20px;right:20px;color:var(--muted);font-size:16px;transition:all .2s}
-.seg-card:hover .seg-arr{color:var(--yellow);transform:translate(2px,-2px)}
-#prova{padding:80px 20px}
-.insta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:12px;overflow:hidden;border:1px solid var(--border2);margin-bottom:24px}
-.insta-cell{aspect-ratio:1;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;position:relative;overflow:hidden}
-.insta-cell:hover .insta-ov{opacity:1}
-.insta-ov{position:absolute;inset:0;background:rgba(245,168,0,.75);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:11px;font-weight:700;color:var(--black)}
-.insta-emoji{font-size:18px}
-.insta-text{font-size:8px;color:var(--muted);text-align:center;line-height:1.3}
-.depo{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px}
-.depo-q{font-size:36px;color:var(--yellow);line-height:.8;margin-bottom:12px;font-family:Georgia,serif}
-.depo-text{font-size:14px;line-height:1.75;color:rgba(245,243,238,.88);margin-bottom:16px;font-style:italic}
-.depo-author{display:flex;align-items:center;gap:12px}
-.depo-av{width:40px;height:40px;background:var(--yellow-dim);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--yellow);flex-shrink:0}
-.depo-name{font-weight:500;font-size:13px}
-.depo-role{font-size:11px;color:var(--muted)}
-#precos{padding:80px 20px;background:var(--dark)}
-.plans{display:flex;flex-direction:column;gap:12px}
-.plan{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:26px 22px;position:relative;transition:all .25s}
-.plan:hover{transform:translateY(-2px)}
-.plan.featured{border-color:var(--yellow);background:linear-gradient(135deg,rgba(245,168,0,.06) 0%,var(--card) 60%)}
-.plan-badge{position:absolute;top:-12px;left:22px;background:var(--yellow);color:var(--black);font-size:10px;font-weight:800;padding:3px 14px;border-radius:100px}
-.plan-name{font-family:var(--font-h);font-size:17px;font-weight:700;margin-bottom:2px}
-.plan-desc{font-size:11px;color:var(--muted);margin-bottom:14px}
-.plan-price{display:flex;align-items:baseline;gap:3px;margin-bottom:18px}
-.plan-cur{font-size:14px;color:var(--muted)}
-.plan-amt{font-family:var(--font-h);font-size:40px;font-weight:800;letter-spacing:-2px;color:var(--white)}
-.plan-per{font-size:12px;color:var(--muted)}
-.plan-feats{list-style:none;margin-bottom:22px}
-.plan-feats li{display:flex;gap:9px;align-items:flex-start;font-size:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(245,243,238,.8);line-height:1.45}
-.plan-feats li:last-child{border:none}
-.plan-feats li::before{content:'âœ“';color:var(--yellow);font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
-.plan-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:10px;font-weight:600;font-size:13px;text-decoration:none;border:none;cursor:pointer;transition:all .2s}
-.plan-btn.y{background:var(--yellow);color:var(--black)}
-.plan-btn.y:hover{background:var(--yellow2)}
-.plan-btn.g{background:transparent;color:var(--white);border:1px solid var(--border2)}
-.plan-btn.g:hover{border-color:var(--border);background:rgba(255,255,255,.04)}
-#cta-final{margin:0 20px 72px;background:linear-gradient(135deg,rgba(245,168,0,.12) 0%,rgba(245,168,0,.04) 100%);border:1px solid var(--border);border-radius:24px;padding:48px 24px;text-align:center;position:relative;overflow:hidden}
-.cta-line{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--yellow);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
-.cta-line::before,.cta-line::after{content:'';width:28px;height:1px;background:var(--yellow);opacity:.5}
-#cta-final h2{font-size:clamp(22px,5vw,34px);margin-bottom:10px}
-#cta-final p{color:var(--muted);font-size:13px;margin-bottom:24px;line-height:1.7}
-.urgency{display:inline-flex;align-items:center;gap:6px;background:rgba(245,168,0,.1);border:1px solid rgba(245,168,0,.25);color:var(--yellow);font-size:11px;font-weight:600;padding:5px 16px;border-radius:100px;margin-bottom:22px}
-footer{padding:28px 20px 110px;border-top:1px solid var(--border2);text-align:center}
-.footer-brand{font-family:var(--font-h);font-size:22px;font-weight:800;color:var(--yellow);letter-spacing:-0.5px}
-.footer-product{font-family:var(--font-h);font-size:16px;font-weight:700;color:var(--yellow)}
-.footer-text{font-size:11px;color:var(--muted);margin-bottom:16px}
-.footer-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
-.footer-links a{color:var(--muted);font-size:11px;text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--white)}
-.wa-fixed{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:200;display:flex;align-items:center;gap:9px;background:#25d366;color:#fff;padding:13px 22px;border-radius:100px;font-weight:700;font-size:13px;text-decoration:none;white-space:nowrap;box-shadow:0 6px 28px rgba(37,211,102,.35);transition:all .2s}
-.wa-fixed:hover{transform:translateX(-50%) translateY(-2px)}
-.fu{opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease}
-.fu.vis{opacity:1;transform:translateY(0)}
-@media(min-width:580px){.cta-group{flex-direction:row}.btn-primary,.btn-ghost{width:auto}.seg-grid{display:grid;grid-template-columns:repeat(3,1fr)}.plans{display:grid;grid-template-columns:repeat(3,1fr)}}
+:root {
+  --black:   #0a0a0a;
+  --dark:    #111111;
+  --card:    #181818;
+  --card2:   #1e1e1e;
+  --border:  rgba(245,168,0,0.15);
+  --border2: rgba(255,255,255,0.07);
+  --yellow:  #F5A800;
+  --yellow2: #FFD166;
+  --yellow-dim: rgba(245,168,0,0.12);
+  --white:   #F5F3EE;
+  --muted:   rgba(245,243,238,0.45);
+  --green:   #4ade80;
+  --font-h:  'Syne', sans-serif;
+  --font-b:  'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-b);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* noise overlay */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: .7;
+}
+
+section, nav, footer, .wa-fixed { position: relative; z-index: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 14px 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10,10,10,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+}
+
+.nav-logo img {
+  height: 36px; width: auto;
+}
+
+.nav-product {
+  font-family: var(--font-h);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--yellow);
+  letter-spacing: 0.06em;
+  background: var(--yellow-dim);
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.nav-cta {
+  background: var(--yellow);
+  color: var(--black);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-family: var(--font-b);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: var(--yellow2); transform: translateY(-1px); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 110px 20px 64px;
+  position: relative; overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(245,168,0,.13) 0%, transparent 68%);
+  top: -80px; right: -140px; pointer-events: none;
+}
+.hero-glow2 {
+  position: absolute;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(245,168,0,.06) 0%, transparent 70%);
+  bottom: 40px; left: -80px; pointer-events: none;
+}
+
+/* grid lines deco */
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  opacity: .04;
+}
+.hero-grid svg { width: 100%; height: 100%; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--yellow-dim);
+  border: 1px solid var(--border);
+  color: var(--yellow);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .09em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 100px;
+  margin-bottom: 22px; width: fit-content;
+  animation: fadeUp .5s ease both;
+}
+.eyebrow-dot {
+  width: 6px; height: 6px; background: var(--yellow); border-radius: 50%;
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+h1 {
+  font-family: var(--font-h);
+  font-size: clamp(34px, 9vw, 62px);
+  font-weight: 800; line-height: 1.04; letter-spacing: -2px;
+  margin-bottom: 18px;
+  animation: fadeUp .5s .08s ease both;
+}
+h1 em { font-style: normal; color: var(--yellow); }
+
+.hero-sub {
+  font-size: clamp(15px, 2.5vw, 17px);
+  color: var(--muted); max-width: 480px;
+  margin-bottom: 32px; font-weight: 300; line-height: 1.75;
+  animation: fadeUp .5s .15s ease both;
+}
+
+/* video mockup */
+.hero-video {
+  width: 100%; max-width: 440px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden; margin-bottom: 30px;
+  background: var(--card);
+  animation: fadeUp .5s .2s ease both;
+  position: relative;
+}
+
+.video-topbar {
+  background: var(--card2);
+  border-bottom: 1px solid var(--border2);
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.video-dot { width: 8px; height: 8px; border-radius: 50%; }
+.video-title {
+  font-size: 11px; color: var(--muted);
+  flex: 1; text-align: center;
+  font-family: var(--font-h); letter-spacing: .05em;
+}
+
+.video-body {
+  padding: 28px 16px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+}
+
+.video-flow {
+  display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center;
+}
+
+.vf-step {
+  display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1;
+}
+.vf-icon {
+  width: 50px; height: 50px;
+  background: var(--yellow-dim);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.vf-label { font-size: 10px; color: var(--muted); text-align: center; line-height: 1.3; max-width: 60px; }
+
+.vf-arrow { color: var(--yellow); font-size: 16px; flex-shrink: 0; margin-bottom: 20px; }
+
+.video-caption {
+  font-size: 11px; color: var(--muted); text-align: center; line-height: 1.5;
+  border: 1px dashed rgba(245,168,0,.2);
+  border-radius: 8px; padding: 8px 14px; width: 100%;
+}
+
+.video-badge {
+  position: absolute; top: 46px; right: 12px;
+  background: var(--yellow); color: var(--black);
+  font-size: 9px; font-weight: 700; padding: 2px 8px;
+  border-radius: 100px; letter-spacing: .05em;
+}
+
+/* CTAs */
+.cta-group {
+  display: flex; flex-direction: column; gap: 10px;
+  animation: fadeUp .5s .28s ease both;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  background: var(--yellow); color: var(--black);
+  padding: 16px 26px; border-radius: 10px;
+  font-family: var(--font-b); font-weight: 700; font-size: 15px;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all .2s; width: 100%;
+}
+.btn-primary:hover { background: var(--yellow2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(245,168,0,.25); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  background: transparent; color: var(--white);
+  padding: 15px 26px; border-radius: 10px;
+  font-family: var(--font-b); font-weight: 400; font-size: 15px;
+  text-decoration: none; border: 1px solid var(--border2);
+  cursor: pointer; transition: all .2s; width: 100%;
+}
+.btn-ghost:hover { border-color: var(--border); background: rgba(255,255,255,.04); }
+
+/* stats bar */
+.hero-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border2);
+  border: 1px solid var(--border2); border-radius: 14px;
+  overflow: hidden; margin-top: 36px;
+  animation: fadeUp .5s .35s ease both;
+}
+.stat-item {
+  background: var(--card); padding: 16px 10px; text-align: center;
+}
+.stat-num {
+  font-family: var(--font-h); font-size: 22px; font-weight: 800;
+  color: var(--yellow); display: block;
+}
+.stat-label { font-size: 10px; color: var(--muted); line-height: 1.3; margin-top: 2px; }
+
+/* ── SECTION SHARED ── */
+.section-tag {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--yellow); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-tag::before {
+  content: '';
+  width: 20px; height: 1px; background: var(--yellow);
+}
+
+h2 {
+  font-family: var(--font-h);
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 800; letter-spacing: -1px; line-height: 1.1;
+  margin-bottom: 28px;
+}
+
+/* ── DOR ── */
+#dor { padding: 80px 20px; }
+
+.comp-table {
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border2);
+}
+.comp-head {
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.ch-col {
+  padding: 12px 16px; font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; gap: 6px; letter-spacing: .04em;
+}
+.ch-col.a { background: var(--card2); color: var(--muted); border-right: 1px solid var(--border2); }
+.ch-col.d { background: rgba(74,222,128,.08); color: var(--green); }
+
+.comp-row { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border2); }
+
+.cc {
+  padding: 13px 16px; font-size: 13px; line-height: 1.45;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.cc.a { background: rgba(255,255,255,.02); color: var(--muted); border-right: 1px solid var(--border2); }
+.cc.d { background: rgba(74,222,128,.03); color: rgba(245,243,238,.88); }
+
+/* ── COMO ── */
+#como { padding: 80px 20px; background: var(--dark); }
+
+.steps { display: flex; flex-direction: column; gap: 0; }
+
+.step {
+  display: flex; gap: 18px;
+  position: relative; padding-bottom: 36px;
+}
+.step:last-child { padding-bottom: 0; }
+
+.step-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+
+.step-icon {
+  width: 54px; height: 54px;
+  background: var(--yellow-dim);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; position: relative; z-index: 1;
+}
+
+.step-line {
+  width: 1px; flex: 1;
+  background: linear-gradient(to bottom, rgba(245,168,0,.3), transparent);
+  margin-top: 6px;
+}
+
+.step-body { padding-top: 10px; }
+.step-n {
+  font-size: 10px; color: var(--yellow); font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px;
+}
+.step-title {
+  font-family: var(--font-h); font-size: 19px; font-weight: 700;
+  margin-bottom: 6px; letter-spacing: -.3px;
+}
+.step-desc { color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+/* ── ROI ── */
+#roi { padding: 80px 20px; }
+
+.roi-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px 22px;
+  position: relative; overflow: hidden;
+}
+.roi-wrap::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(245,168,0,.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.roi-head { font-family: var(--font-h); font-size: 20px; font-weight: 800; letter-spacing: -.3px; margin-bottom: 4px; }
+.roi-sub { color: var(--muted); font-size: 12px; margin-bottom: 24px; }
+
+.sl-group { margin-bottom: 22px; }
+.sl-row {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+}
+.sl-label { font-size: 13px; color: var(--muted); }
+.sl-val { font-family: var(--font-h); font-size: 18px; font-weight: 800; color: var(--yellow); }
+
+input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 3px;
+  background: rgba(245,168,0,.15); border-radius: 2px; outline: none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 20px; height: 20px;
+  background: var(--yellow); border-radius: 50%; cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(245,168,0,.2);
+}
+
+.roi-result {
+  background: rgba(245,168,0,.06);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px;
+}
+.roi-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.roi-row:last-child { border: none; }
+.roi-rl { font-size: 12px; color: var(--muted); }
+.roi-rv { font-family: var(--font-h); font-weight: 700; color: var(--white); }
+.roi-rv.big { font-size: 24px; color: var(--yellow); }
+.roi-share {
+  margin-top: 14px; font-size: 11px; color: var(--muted);
+  text-align: center;
+}
+
+/* ── SEGMENTOS ── */
+#segmentos { padding: 80px 20px; background: var(--dark); }
+
+.seg-grid { display: flex; flex-direction: column; gap: 10px; }
+
+.seg-card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 16px; padding: 22px;
+  cursor: pointer; transition: all .25s;
+  text-decoration: none; color: inherit;
+  position: relative; overflow: hidden;
+  display: block;
+}
+.seg-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 0;
+  background: var(--yellow);
+  transition: height .3s ease;
+  border-radius: 0 0 3px 3px;
+}
+.seg-card:hover { border-color: var(--border); transform: translateY(-2px); }
+.seg-card:hover::before { height: 100%; }
+
+.seg-icon { font-size: 30px; margin-bottom: 10px; }
+.seg-name { font-family: var(--font-h); font-size: 17px; font-weight: 700; margin-bottom: 5px; letter-spacing: -.3px; }
+.seg-pain { font-size: 12px; color: var(--muted); line-height: 1.65; margin-bottom: 10px; }
+.seg-benefit {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(74,222,128,.08);
+  border: 1px solid rgba(74,222,128,.2);
+  color: var(--green); font-size: 11px; font-weight: 600;
+  padding: 4px 12px; border-radius: 100px;
+}
+.seg-arr {
+  position: absolute; top: 20px; right: 20px;
+  color: var(--muted); font-size: 16px; transition: all .2s;
+}
+.seg-card:hover .seg-arr { color: var(--yellow); transform: translate(2px,-2px); }
+
+/* ── PROVA ── */
+#prova { padding: 80px 20px; }
+
+.insta-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 3px; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border2); margin-bottom: 24px;
+}
+.insta-cell {
+  aspect-ratio: 1; background: var(--card);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 4px; padding: 8px;
+  position: relative; cursor: pointer; overflow: hidden;
+}
+.insta-cell:hover .insta-ov { opacity: 1; }
+.insta-ov {
+  position: absolute; inset: 0;
+  background: rgba(245,168,0,.75);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .2s;
+  font-size: 11px; font-weight: 700; color: var(--black);
+}
+.insta-emoji { font-size: 18px; }
+.insta-text { font-size: 8px; color: var(--muted); text-align: center; line-height: 1.3; }
+
+.depo {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 22px;
+}
+.depo-q {
+  font-size: 36px; color: var(--yellow);
+  line-height: .8; margin-bottom: 12px;
+  font-family: Georgia, serif;
+}
+.depo-text {
+  font-size: 14px; line-height: 1.75;
+  color: rgba(245,243,238,.88); margin-bottom: 16px; font-style: italic;
+}
+.depo-author { display: flex; align-items: center; gap: 12px; }
+.depo-av {
+  width: 40px; height: 40px;
+  background: var(--yellow-dim);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; color: var(--yellow); flex-shrink: 0;
+}
+.depo-name { font-weight: 500; font-size: 13px; }
+.depo-role { font-size: 11px; color: var(--muted); }
+
+/* ── PRECOS ── */
+#precos { padding: 80px 20px; background: var(--dark); }
+
+.plans { display: flex; flex-direction: column; gap: 12px; }
+
+.plan {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 18px; padding: 26px 22px;
+  position: relative; transition: all .25s;
+}
+.plan:hover { transform: translateY(-2px); }
+.plan.featured { border-color: var(--yellow); background: linear-gradient(135deg, rgba(245,168,0,.06) 0%, var(--card) 60%); }
+
+.plan-badge {
+  position: absolute; top: -12px; left: 22px;
+  background: var(--yellow); color: var(--black);
+  font-size: 10px; font-weight: 800;
+  padding: 3px 14px; border-radius: 100px; letter-spacing: .04em;
+}
+
+.plan-name { font-family: var(--font-h); font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+.plan-desc { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+
+.plan-price {
+  display: flex; align-items: baseline; gap: 3px; margin-bottom: 18px;
+}
+.plan-cur { font-size: 14px; color: var(--muted); }
+.plan-amt {
+  font-family: var(--font-h); font-size: 40px; font-weight: 800;
+  letter-spacing: -2px; color: var(--white);
+}
+.plan-per { font-size: 12px; color: var(--muted); }
+
+.plan-feats { list-style: none; margin-bottom: 22px; }
+.plan-feats li {
+  display: flex; gap: 9px; align-items: flex-start;
+  font-size: 12px; padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  color: rgba(245,243,238,.8); line-height: 1.45;
+}
+.plan-feats li:last-child { border: none; }
+.plan-feats li::before { content: '✓'; color: var(--yellow); font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+.plan-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 13px;
+  border-radius: 10px; font-family: var(--font-b); font-weight: 600;
+  font-size: 13px; text-decoration: none; border: none; cursor: pointer; transition: all .2s;
+}
+.plan-btn.y { background: var(--yellow); color: var(--black); }
+.plan-btn.y:hover { background: var(--yellow2); }
+.plan-btn.g { background: transparent; color: var(--white); border: 1px solid var(--border2); }
+.plan-btn.g:hover { border-color: var(--border); background: rgba(255,255,255,.04); }
+
+/* ── CTA FINAL ── */
+#cta-final {
+  margin: 0 20px 72px;
+  background: linear-gradient(135deg, rgba(245,168,0,.12) 0%, rgba(245,168,0,.04) 100%);
+  border: 1px solid var(--border);
+  border-radius: 24px; padding: 48px 24px;
+  text-align: center; position: relative; overflow: hidden;
+}
+#cta-final::before {
+  content: '';
+  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(245,168,0,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-line {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--yellow);
+  display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px;
+}
+.cta-line::before, .cta-line::after { content: ''; width: 28px; height: 1px; background: var(--yellow); opacity: .5; }
+
+#cta-final h2 { font-size: clamp(22px,5vw,34px); margin-bottom: 10px; }
+#cta-final p { color: var(--muted); font-size: 13px; margin-bottom: 24px; line-height: 1.7; }
+
+.urgency {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(245,168,0,.1);
+  border: 1px solid rgba(245,168,0,.25);
+  color: var(--yellow); font-size: 11px; font-weight: 600;
+  padding: 5px 16px; border-radius: 100px; margin-bottom: 22px;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 28px 20px 110px;
+  border-top: 1px solid var(--border2);
+  text-align: center;
+}
+
+.footer-logo-wrap { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 6px; }
+.footer-logo-wrap img { height: 28px; width: auto; }
+.footer-product { font-family: var(--font-h); font-size: 16px; font-weight: 700; color: var(--yellow); }
+
+.footer-text { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
+.footer-links { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+.footer-links a { color: var(--muted); font-size: 11px; text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--white); }
+
+/* ── WA FIXED ── */
+.wa-fixed {
+  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 200;
+  display: flex; align-items: center; gap: 9px;
+  background: #25d366; color: #fff;
+  padding: 13px 22px; border-radius: 100px;
+  font-family: var(--font-b); font-weight: 700; font-size: 13px;
+  text-decoration: none; white-space: nowrap;
+  box-shadow: 0 6px 28px rgba(37,211,102,.35);
+  transition: all .2s;
+}
+.wa-fixed:hover { transform: translateX(-50%) translateY(-2px); box-shadow: 0 10px 36px rgba(37,211,102,.45); }
+
+/* ── ANIM ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fu { opacity: 0; transform: translateY(28px); transition: opacity .55s ease, transform .55s ease; }
+.fu.vis { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (min-width: 580px) {
+  .cta-group { flex-direction: row; }
+  .btn-primary, .btn-ghost { width: auto; }
+  .seg-grid { display: grid; grid-template-columns: repeat(3,1fr); }
+  .plans { display: grid; grid-template-columns: repeat(3,1fr); }
+}
 </style>
 </head>
 <body>
+
+<!-- NAV -->
 <nav>
   <div class="nav-logo">
-    <span class="nav-brand">AMAV</span>
+    <img src="/mnt/user-data/uploads/Amav_Amarelo.png" alt="AMAV Soluções">
     <span class="nav-product">SCAN</span>
   </div>
-  <a href="https://wa.me/5519900000000" class="nav-cta" target="_blank">Ver demo &rarr;</a>
+  <a href="https://wa.me/5519996673775?text=Quero%20ver%20uma%20demonstração%20do%20AmavScan" class="nav-cta" target="_blank">Ver demo →</a>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-glow"></div>
-  <div class="eyebrow"><span class="eyebrow-dot"></span>Novo &mdash; IA para rastreamento e entregas</div>
+  <div class="hero-glow2"></div>
+
+  <div class="eyebrow"><span class="eyebrow-dot"></span>Novo — IA para rastreamento e entregas</div>
+
   <h1>Separe <em>200 pacotes</em><br>em 5 minutos.<br>Sem digitar nada.</h1>
-  <p class="hero-sub">IA que l&#234; etiquetas, extrai endere&#231;os e exporta para o roteirizador automaticamente. Chega de 4 horas por dia perdidas na separa&#231;&#227;o.</p>
+
+  <p class="hero-sub">IA que lê etiquetas, extrai endereços e exporta para o roteirizador automaticamente. Chega de 4 horas por dia perdidas na separação.</p>
+
   <div class="hero-video">
+    <div class="video-badge">AO VIVO</div>
     <div class="video-topbar">
       <div class="video-dot" style="background:#ff5f57"></div>
       <div class="video-dot" style="background:#febc2e"></div>
       <div class="video-dot" style="background:#28c840"></div>
-      <div class="video-title">AmavScan &mdash; em a&#231;&#227;o</div>
+      <div class="video-title">AmavScan — em ação</div>
     </div>
     <div class="video-body">
       <div class="video-flow">
-        <div class="vf-step"><div class="vf-icon">&#128241;</div><div class="vf-label">Aponte a c&#226;mera</div></div>
-        <div class="vf-arrow">&rarr;</div>
-        <div class="vf-step"><div class="vf-icon">&#129302;</div><div class="vf-label">IA extrai endere&#231;o</div></div>
-        <div class="vf-arrow">&rarr;</div>
-        <div class="vf-step"><div class="vf-icon">&#128202;</div><div class="vf-label">Exporta ao roteirizador</div></div>
+        <div class="vf-step">
+          <div class="vf-icon">📱</div>
+          <div class="vf-label">Aponte a câmera</div>
+        </div>
+        <div class="vf-arrow">→</div>
+        <div class="vf-step">
+          <div class="vf-icon">🤖</div>
+          <div class="vf-label">IA extrai endereço</div>
+        </div>
+        <div class="vf-arrow">→</div>
+        <div class="vf-step">
+          <div class="vf-icon">📊</div>
+          <div class="vf-label">Exporta ao roteirizador</div>
+        </div>
       </div>
-      <div class="video-caption">&#9654; Substitua pelo v&#237;deo do app (15&ndash;20s, autoplay mudo)</div>
+      <div class="video-caption">▶ Substitua aqui pelo vídeo do app (15–20s, autoplay mudo)</div>
     </div>
   </div>
+
   <div class="cta-group">
-    <a href="https://wa.me/5519900000000" class="btn-primary" target="_blank">Ver demonstra&#231;&#227;o gratuita</a>
-    <a href="#como" class="btn-ghost">Como funciona &rarr;</a>
+    <a href="https://wa.me/5519996673775?text=Quero%20uma%20demonstração%20gratuita%20do%20AmavScan" class="btn-primary" target="_blank">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Ver demonstração gratuita
+    </a>
+    <a href="#como" class="btn-ghost">Como funciona →</a>
   </div>
+
   <div class="hero-stats">
-    <div class="stat-item"><span class="stat-num">&lt;5min</span><div class="stat-label">Por CEP separado</div></div>
-    <div class="stat-item"><span class="stat-num">100%</span><div class="stat-label">Precis&#227;o da IA</div></div>
-    <div class="stat-item"><span class="stat-num">Zero</span><div class="stat-label">Digita&#231;&#227;o manual</div></div>
+    <div class="stat-item">
+      <span class="stat-num">&lt;5min</span>
+      <div class="stat-label">Por CEP separado</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">100%</span>
+      <div class="stat-label">Precisão da IA</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">Zero</span>
+      <div class="stat-label">Digitação manual</div>
+    </div>
   </div>
 </section>
 
+<!-- DOR -->
 <section id="dor">
-  <div class="section-tag fu">O problema que voc&#234; conhece</div>
+  <div class="section-tag fu">O problema que você conhece</div>
   <h2 class="fu">Antes e depois<br>do AmavScan</h2>
   <div class="comp-table fu">
-    <div class="comp-head"><div class="ch-col a">&times; Antes (hoje)</div><div class="ch-col d">&#10003; Com AmavScan</div></div>
-    <div class="comp-row"><div class="cc a">4h/dia perdidas na separa&#231;&#227;o</div><div class="cc d">Menos de 5 min por CEP</div></div>
-    <div class="comp-row"><div class="cc a">Erros de digita&#231;&#227;o constantes</div><div class="cc d">100% de precis&#227;o da IA</div></div>
-    <div class="comp-row"><div class="cc a">Retrabalho em rotas erradas</div><div class="cc d">Zero duplicatas</div></div>
-    <div class="comp-row"><div class="cc a">Comprovante s&#243; em papel</div><div class="cc d">Foto + assinatura + v&#237;deo</div></div>
-    <div class="comp-row"><div class="cc a">Sem rastreio em tempo real</div><div class="cc d">Localiza&#231;&#227;o e status ao vivo</div></div>
+    <div class="comp-head">
+      <div class="ch-col a">❌ Antes (hoje)</div>
+      <div class="ch-col d">✅ Com AmavScan</div>
+    </div>
+    <div class="comp-row"><div class="cc a">⏱ 4h/dia perdidas na separação</div><div class="cc d">Menos de 5 min por CEP</div></div>
+    <div class="comp-row"><div class="cc a">❌ Erros de digitação constantes</div><div class="cc d">🎯 100% de precisão da IA</div></div>
+    <div class="comp-row"><div class="cc a">🔄 Retrabalho em rotas erradas</div><div class="cc d">0️⃣ Zero duplicatas</div></div>
+    <div class="comp-row"><div class="cc a">📄 Comprovante só em papel</div><div class="cc d">📱 Foto + assinatura + vídeo</div></div>
+    <div class="comp-row"><div class="cc a">🤷 Sem rastreio em tempo real</div><div class="cc d">📍 Localização e status ao vivo</div></div>
   </div>
 </section>
 
+<!-- COMO -->
 <section id="como">
   <div class="section-tag fu">Simples assim</div>
   <h2 class="fu">3 passos para<br>zerar o retrabalho</h2>
+
   <div class="steps">
-    <div class="step fu"><div class="step-left"><div class="step-icon">&#128241;</div><div class="step-line"></div></div><div class="step-body"><div class="step-n">Passo 01</div><div class="step-title">Aponte a c&#226;mera para a etiqueta</div><div class="step-desc">O operador abre o AmavScan no Android e aponta para qualquer etiqueta. A IA l&#234; tudo em instantes.</div></div></div>
-    <div class="step fu"><div class="step-left"><div class="step-icon">&#129302;</div><div class="step-line"></div></div><div class="step-body"><div class="step-n">Passo 02</div><div class="step-title">IA extrai o endere&#231;o automaticamente</div><div class="step-desc">Em menos de 2 segundos: CEP, rua, n&#250;mero e destinat&#225;rio identificados. Zero digita&#231;&#227;o. Zero erro humano.</div></div></div>
-    <div class="step fu"><div class="step-left"><div class="step-icon">&#128202;</div></div><div class="step-body"><div class="step-n">Passo 03</div><div class="step-title">Exporte para o roteirizador em 1 toque</div><div class="step-desc">Todos os endere&#231;os exportados direto para o OnDelivery (RedGPS). Rotas otimizadas prontas imediatamente.</div></div></div>
+    <div class="step fu">
+      <div class="step-left"><div class="step-icon">📱</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <div class="step-n">Passo 01</div>
+        <div class="step-title">Aponte a câmera para a etiqueta</div>
+        <div class="step-desc">O operador abre o AmavScan no Android e aponta para qualquer etiqueta — impressa, manuscrita ou danificada. A IA lê tudo em instantes.</div>
+      </div>
+    </div>
+    <div class="step fu">
+      <div class="step-left"><div class="step-icon">🤖</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <div class="step-n">Passo 02</div>
+        <div class="step-title">IA extrai o endereço automaticamente</div>
+        <div class="step-desc">Em menos de 2 segundos: CEP, rua, número e destinatário identificados. Zero digitação. Zero erro humano. Os dados são validados e organizados na hora.</div>
+      </div>
+    </div>
+    <div class="step fu">
+      <div class="step-left"><div class="step-icon">📊</div></div>
+      <div class="step-body">
+        <div class="step-n">Passo 03</div>
+        <div class="step-title">Exporte para o roteirizador em 1 toque</div>
+        <div class="step-desc">Todos os endereços exportados direto para o OnDelivery (RedGPS). Rotas otimizadas prontas para a equipe de entrega sair imediatamente.</div>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- ROI -->
 <section id="roi">
   <div class="section-tag fu">Calcule seu retorno</div>
-  <h2 class="fu">Quanto voc&#234;<br>est&#225; perdendo hoje?</h2>
+  <h2 class="fu">Quanto você<br>está perdendo hoje?</h2>
+
   <div class="roi-wrap fu">
     <div class="roi-head">Calculadora de ROI</div>
-    <div class="roi-sub">Arraste e veja o impacto real na sua opera&#231;&#227;o</div>
-    <div class="sl-group"><div class="sl-row"><span class="sl-label">&#128230; Pacotes por dia</span><span class="sl-val" id="vp">150</span></div><input type="range" min="50" max="1000" value="150" step="10" id="sp"></div>
-    <div class="sl-group"><div class="sl-row"><span class="sl-label">&#128100; Operadores na separa&#231;&#227;o</span><span class="sl-val" id="vo">3</span></div><input type="range" min="1" max="20" value="3" id="so"></div>
+    <div class="roi-sub">Arraste e veja o impacto real na sua operação</div>
+
+    <div class="sl-group">
+      <div class="sl-row">
+        <span class="sl-label">📦 Pacotes por dia</span>
+        <span class="sl-val" id="vp">150</span>
+      </div>
+      <input type="range" min="50" max="1000" value="150" step="10" id="sp">
+    </div>
+
+    <div class="sl-group">
+      <div class="sl-row">
+        <span class="sl-label">👤 Operadores na separação</span>
+        <span class="sl-val" id="vo">3</span>
+      </div>
+      <input type="range" min="1" max="20" value="3" id="so">
+    </div>
+
     <div class="roi-result">
       <div class="roi-row"><span class="roi-rl">Horas economizadas / dia</span><span class="roi-rv" id="rh">3.0h</span></div>
       <div class="roi-row"><span class="roi-rl">Economia mensal estimada</span><span class="roi-rv big" id="re">R$ 2.808</span></div>
       <div class="roi-row"><span class="roi-rl">Payback do investimento</span><span class="roi-rv" id="rp">em 14 dias</span></div>
     </div>
-    <div class="roi-share">&#128172; Esse resultado vale um print para o grupo da empresa</div>
+    <div class="roi-share">💬 Esse resultado vale um print para o grupo da empresa</div>
   </div>
 </section>
 
+<!-- SEGMENTOS -->
 <section id="segmentos">
-  <div class="section-tag fu">Para quem &#233;</div>
-  <h2 class="fu">Sua opera&#231;&#227;o<br>se encaixa aqui</h2>
+  <div class="section-tag fu">Para quem é</div>
+  <h2 class="fu">Sua operação<br>se encaixa aqui</h2>
   <div class="seg-grid">
-    <a href="https://wa.me/5519900000000" class="seg-card fu" target="_blank"><span class="seg-arr">&nearr;</span><div class="seg-icon">&#128666;</div><div class="seg-name">Transportadoras</div><div class="seg-pain">Volume di&#225;rio alto, m&#250;ltiplos entregadores, comprovantes dispersos.</div><div class="seg-benefit">&#10003; Rota otimizada + comprovante digital</div></a>
-    <a href="https://wa.me/5519900000000" class="seg-card fu" target="_blank"><span class="seg-arr">&nearr;</span><div class="seg-icon">&#127981;</div><div class="seg-name">Centros de Distribui&#231;&#227;o</div><div class="seg-pain">Separa&#231;&#227;o manual gerando atrasos e erros de endere&#231;o.</div><div class="seg-benefit">&#10003; Separa&#231;&#227;o 20&times; mais r&#225;pida</div></a>
-    <a href="https://wa.me/5519900000000" class="seg-card fu" target="_blank"><span class="seg-arr">&nearr;</span><div class="seg-icon">&#128717;</div><div class="seg-name">E-commerce / Fulfillment</div><div class="seg-pain">Picos de pedidos que travam a opera&#231;&#227;o em datas sazonais.</div><div class="seg-benefit">&#10003; Escala sem contratar mais</div></a>
+    <a href="https://wa.me/5519996673775?text=Tenho%20uma%20transportadora%20e%20quero%20saber%20sobre%20o%20AmavScan" class="seg-card fu" target="_blank">
+      <div class="seg-arr">↗</div>
+      <div class="seg-icon">🚚</div>
+      <div class="seg-name">Transportadoras</div>
+      <div class="seg-pain">Volume diário alto, múltiplos entregadores, comprovantes dispersos e sem padrão.</div>
+      <div class="seg-benefit">✓ Rota otimizada + comprovante digital</div>
+    </a>
+    <a href="https://wa.me/5519996673775?text=Tenho%20um%20centro%20de%20distribuição%20e%20quero%20saber%20sobre%20o%20AmavScan" class="seg-card fu" target="_blank">
+      <div class="seg-arr">↗</div>
+      <div class="seg-icon">🏭</div>
+      <div class="seg-name">Centros de Distribuição</div>
+      <div class="seg-pain">Separação manual gerando atrasos, erros de endereço e reclamações de clientes.</div>
+      <div class="seg-benefit">✓ Separação 20× mais rápida</div>
+    </a>
+    <a href="https://wa.me/5519996673775?text=Tenho%20um%20e-commerce%20e%20quero%20saber%20sobre%20o%20AmavScan" class="seg-card fu" target="_blank">
+      <div class="seg-arr">↗</div>
+      <div class="seg-icon">🛒</div>
+      <div class="seg-name">E-commerce / Fulfillment</div>
+      <div class="seg-pain">Picos de pedidos que travam a operação em datas sazonais e promoções.</div>
+      <div class="seg-benefit">✓ Escala sem contratar mais</div>
+    </a>
   </div>
 </section>
 
+<!-- PROVA -->
+<section id="prova">
+  <div class="section-tag fu">Prova social</div>
+  <h2 class="fu">Quem já está<br>usando</h2>
+
+  <div class="insta-grid fu">
+    <div class="insta-cell"><div class="insta-emoji">📱</div><div class="insta-text">Demo ao vivo #AmavScan</div><div class="insta-ov">Ver post</div></div>
+    <div class="insta-cell"><div class="insta-emoji">🤖</div><div class="insta-text">IA lendo etiqueta em 2s</div><div class="insta-ov">Ver post</div></div>
+    <div class="insta-cell"><div class="insta-emoji">📊</div><div class="insta-text">Export OnDelivery</div><div class="insta-ov">Ver post</div></div>
+    <div class="insta-cell"><div class="insta-emoji">🚚</div><div class="insta-text">200 pkg em 4 min</div><div class="insta-ov">Ver post</div></div>
+    <div class="insta-cell"><div class="insta-emoji">📍</div><div class="insta-text">Rota em 1 toque</div><div class="insta-ov">Ver post</div></div>
+    <div class="insta-cell"><div class="insta-emoji">⭐</div><div class="insta-text">Depoimento cliente piloto</div><div class="insta-ov">Ver post</div></div>
+  </div>
+
+  <div class="depo fu">
+    <div class="depo-q">"</div>
+    <div class="depo-text">A gente gastava quase 3 horas toda manhã só na separação por CEP. Com o AmavScan, o pessoal faz isso em menos de 15 minutos. Não tem como voltar atrás.</div>
+    <div class="depo-author">
+      <div class="depo-av">CF</div>
+      <div>
+        <div class="depo-name">Cliente piloto — AMAV</div>
+        <div class="depo-role">Transportadora na região de Campinas, SP</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECOS -->
 <section id="precos">
-  <div class="section-tag fu">Transpar&#234;ncia total</div>
-  <h2 class="fu">Planos e pre&#231;os</h2>
+  <div class="section-tag fu">Transparência total</div>
+  <h2 class="fu">Planos e preços</h2>
+
   <div class="plans">
-    <div class="plan fu"><div class="plan-name">Starter</div><div class="plan-desc">Para come&#231;ar hoje</div><div class="plan-price"><span class="plan-cur">R$</span><span class="plan-amt">397</span><span class="plan-per">/m&#234;s</span></div><ul class="plan-feats"><li>At&#233; 500 leituras/dia</li><li>1 usu&#225;rio</li><li>Export OnDelivery / RedGPS</li><li>Suporte via WhatsApp</li><li>App Android incluso</li></ul><a href="https://wa.me/5519900000000" class="plan-btn g" target="_blank">Falar com a AMAV &rarr;</a></div>
-    <div class="plan featured fu"><div class="plan-badge">&#11088; Mais vendido</div><div class="plan-name">Profissional</div><div class="plan-desc">Para resultado em escala</div><div class="plan-price"><span class="plan-cur">R$</span><span class="plan-amt">997</span><span class="plan-per">/m&#234;s</span></div><ul class="plan-feats"><li>Leituras ilimitadas</li><li>At&#233; 5 usu&#225;rios</li><li>Roteiriza&#231;&#227;o autom&#225;tica</li><li>Dashboard de performance</li><li>Comprovante foto + v&#237;deo</li><li>Suporte priorit&#225;rio</li></ul><a href="https://wa.me/5519900000000" class="plan-btn y" target="_blank">Come&#231;ar agora &rarr;</a></div>
-    <div class="plan fu"><div class="plan-name">Enterprise</div><div class="plan-desc">Para grandes opera&#231;&#245;es</div><div class="plan-price"><span class="plan-cur">R$</span><span class="plan-amt">2.497</span><span class="plan-per">/m&#234;s</span></div><ul class="plan-feats"><li>Volume ilimitado</li><li>Usu&#225;rios ilimitados</li><li>Integra&#231;&#227;o API personalizada</li><li>Onboarding dedicado</li><li>SLA garantido</li><li>Gestor de conta exclusivo</li></ul><a href="https://wa.me/5519900000000" class="plan-btn g" target="_blank">Falar com a AMAV &rarr;</a></div>
+    <div class="plan fu">
+      <div class="plan-name">Starter</div>
+      <div class="plan-desc">Para começar hoje</div>
+      <div class="plan-price"><span class="plan-cur">R$</span><span class="plan-amt">397</span><span class="plan-per">/mês</span></div>
+      <ul class="plan-feats">
+        <li>Até 500 leituras/dia</li>
+        <li>1 usuário</li>
+        <li>Export OnDelivery / RedGPS</li>
+        <li>Suporte via WhatsApp</li>
+        <li>App Android incluso</li>
+      </ul>
+      <a href="https://wa.me/5519996673775?text=Quero%20o%20plano%20Starter%20do%20AmavScan%20-%20R$397/mês" class="plan-btn g" target="_blank">Falar com a AMAV →</a>
+    </div>
+
+    <div class="plan featured fu">
+      <div class="plan-badge">⭐ Mais vendido</div>
+      <div class="plan-name">Profissional</div>
+      <div class="plan-desc">Para resultado em escala</div>
+      <div class="plan-price"><span class="plan-cur">R$</span><span class="plan-amt">997</span><span class="plan-per">/mês</span></div>
+      <ul class="plan-feats">
+        <li>Leituras ilimitadas</li>
+        <li>Até 5 usuários</li>
+        <li>Roteirização automática</li>
+        <li>Dashboard de performance</li>
+        <li>Comprovante foto + vídeo</li>
+        <li>Suporte prioritário</li>
+      </ul>
+      <a href="https://wa.me/5519996673775?text=Quero%20o%20plano%20Profissional%20do%20AmavScan%20-%20R$997/mês" class="plan-btn y" target="_blank">Começar agora →</a>
+    </div>
+
+    <div class="plan fu">
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-desc">Para grandes operações</div>
+      <div class="plan-price"><span class="plan-cur">R$</span><span class="plan-amt">2.497</span><span class="plan-per">/mês</span></div>
+      <ul class="plan-feats">
+        <li>Volume ilimitado</li>
+        <li>Usuários ilimitados</li>
+        <li>Integração API personalizada</li>
+        <li>Onboarding dedicado</li>
+        <li>SLA garantido</li>
+        <li>Gestor de conta exclusivo</li>
+      </ul>
+      <a href="https://wa.me/5519996673775?text=Quero%20o%20plano%20Enterprise%20do%20AmavScan" class="plan-btn g" target="_blank">Falar com a AMAV →</a>
+    </div>
   </div>
 </section>
 
+<!-- CTA FINAL -->
 <div id="cta-final" class="fu">
-  <div class="cta-line">Lan&#231;amento</div>
-  <h2>Clientes AMAV t&#234;m<br>acesso imediato</h2>
-  <p>Novos clientes: vagas limitadas para piloto em abril.<br>Demonstra&#231;&#227;o gratuita, sem compromisso.</p>
-  <div class="urgency">&#9889; Vagas limitadas para o piloto de abril</div><br>
-  <a href="https://wa.me/5519900000000" class="btn-primary" style="max-width:300px;margin:16px auto 0;display:flex" target="_blank">Agendar demo gratuita</a>
+  <div class="cta-line">Lançamento</div>
+  <h2>Clientes AMAV têm<br>acesso imediato</h2>
+  <p>Novos clientes: vagas limitadas para piloto em abril.<br>Demonstração gratuita, sem compromisso.</p>
+  <div class="urgency">⚡ Vagas limitadas para o piloto de abril</div><br>
+  <a href="https://wa.me/5519996673775?text=Quero%20agendar%20minha%20demo%20gratuita%20do%20AmavScan" class="btn-primary" style="max-width:300px;margin:16px auto 0;display:flex;" target="_blank">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Agendar demo gratuita
+  </a>
 </div>
 
+<!-- FOOTER -->
 <footer>
-  <div style="margin-bottom:6px"><span class="footer-brand">AMAV</span> <span class="footer-product">SCAN</span></div>
-  <div class="footer-text">Uma solu&#231;&#227;o AMAV Solu&#231;&#245;es &middot; Limeira, S&#227;o Paulo &middot; &copy; 2026</div>
-  <div class="footer-links"><a href="#">Pol&#237;tica de Privacidade</a><a href="#">Termos de Uso</a><a href="https://www.instagram.com/amav_solucoes" target="_blank">@amav_solucoes</a></div>
+  <div class="footer-logo-wrap">
+    <img src="/mnt/user-data/uploads/Amav_Amarelo.png" alt="AMAV Soluções">
+    <span class="footer-product">SCAN</span>
+  </div>
+  <div class="footer-text">Uma solução AMAV Soluções · Limeira, São Paulo · © 2026</div>
+  <div class="footer-links">
+    <a href="#">Política de Privacidade</a>
+    <a href="#">Termos de Uso</a>
+    <a href="https://www.instagram.com/amav_solucoes" target="_blank">@amav_solucoes</a>
+  </div>
 </footer>
 
-<a href="https://wa.me/5519900000000" class="wa-fixed" target="_blank">&#128172; Falar no WhatsApp</a>
+<!-- WA FIXO -->
+<a href="https://wa.me/5519996673775?text=Olá%20Marcio,%20quero%20saber%20mais%20sobre%20o%20AmavScan" class="wa-fixed" target="_blank">
+  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  Falar no WhatsApp
+</a>
 
 <script>
-const sp=document.getElementById('sp'),so=document.getElementById('so');
-function roi(){const p=+sp.value,o=+so.value;document.getElementById('vp').textContent=p;document.getElementById('vo').textContent=o;const min=p*1.2*0.92,h=(min/60).toFixed(1),econ=Math.round(o*(min/60)*18*22),pb=Math.ceil(997/(econ/30));document.getElementById('rh').textContent=h+'h';document.getElementById('re').textContent='R$ '+econ.toLocaleString('pt-BR');document.getElementById('rp').textContent='em '+pb+' dias';}
-sp.addEventListener('input',roi);so.addEventListener('input',roi);roi();
-const obs=new IntersectionObserver(e=>{e.forEach((el,i)=>{if(el.isIntersecting)setTimeout(()=>el.target.classList.add('vis'),i*70)});},{threshold:0.08});
-document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+// ROI
+const sp = document.getElementById('sp'), so = document.getElementById('so');
+function roi() {
+  const p = +sp.value, o = +so.value;
+  document.getElementById('vp').textContent = p;
+  document.getElementById('vo').textContent = o;
+  const min = p * 1.2 * 0.92;
+  const h = (min/60).toFixed(1);
+  const econ = Math.round(o * (min/60) * 18 * 22);
+  const pb = Math.ceil(997 / (econ/30));
+  document.getElementById('rh').textContent = h + 'h';
+  document.getElementById('re').textContent = 'R$ ' + econ.toLocaleString('pt-BR');
+  document.getElementById('rp').textContent = 'em ' + pb + ' dias';
+}
+sp.addEventListener('input', roi);
+so.addEventListener('input', roi);
+roi();
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i * 70);
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fu').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
